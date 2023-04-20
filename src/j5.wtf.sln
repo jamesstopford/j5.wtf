@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "j5.wtf.api", "j5.wtf.api\j5.wtf.api.csproj", "{51A998F2-C408-4277-8590-94939FEA93D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "j5.wtf.test", "j5.wtf.test\j5.wtf.test.csproj", "{035E5E4E-7C08-4620-B365-78E9DC1B8949}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{51A998F2-C408-4277-8590-94939FEA93D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51A998F2-C408-4277-8590-94939FEA93D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51A998F2-C408-4277-8590-94939FEA93D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{035E5E4E-7C08-4620-B365-78E9DC1B8949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{035E5E4E-7C08-4620-B365-78E9DC1B8949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{035E5E4E-7C08-4620-B365-78E9DC1B8949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{035E5E4E-7C08-4620-B365-78E9DC1B8949}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
