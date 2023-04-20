@@ -1,7 +1,0 @@
-# Ignore files and folders for a .NET project
-bin/
-obj/
-*.user
-*.suo
-*.log
-*.bak
