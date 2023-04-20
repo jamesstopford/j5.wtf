@@ -1,17 +1,21 @@
 using Azure.Data.Tables;
 using j5.wtf.api.Validators;
+using j5.wtf.api.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("AzureTableStorage");
 var tableName = configuration["TableName"];
 var defaultDestination = configuration["DefaultDestination"];
+var allowedApiKey = configuration["AllowedApiKey"];
 
 var app = builder.Build();
 
 var idValidator = new IdValidator();
 var destinationUrlValidator = new DestinationUrlValidator();
 var tableClient = new TableClient(connectionString, tableName);
+
+app.Use(ApiKeyValidation.ApiKeyValidationMiddleware(allowedApiKey!));
 
 // app.UseExceptionHandler(errorApp =>
 // {
@@ -109,3 +113,4 @@ string GenerateShortId()
     var base64Guid = Convert.ToBase64String(guid.ToByteArray());
     return base64Guid.Substring(0, 8);
 }
+

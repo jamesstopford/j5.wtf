@@ -2,10 +2,13 @@
 # @no-redirect
 GET {{API_BASE_URL}}/google
 
+
 ### Shorten URL
 POST {{API_BASE_URL}}/shorten
 Content-Type: application/json
+X-Api-Key: howdy
 
 {
-  "destinationUrl": "http://www.asdf.com"
+  "destinationUrl": "http://www.asdf.com",
+  "slug": "blaasdfh"
 }
