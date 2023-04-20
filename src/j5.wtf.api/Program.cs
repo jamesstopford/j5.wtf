@@ -1,6 +1,4 @@
-using System.Text.Json;
 using Azure.Data.Tables;
-using Microsoft.AspNetCore.Diagnostics;
 using j5.wtf.api.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +10,7 @@ var defaultDestination = configuration["DefaultDestination"];
 var app = builder.Build();
 
 var idValidator = new IdValidator();
+var destinationUrlValidator = new DestinationUrlValidator();
 var tableClient = new TableClient(connectionString, tableName);
 
 // app.UseExceptionHandler(errorApp =>
@@ -61,31 +60,52 @@ app.MapGet("/{id?}", async(string? id) =>
 
 app.MapPost("/shorten/", async (UrlInput input) =>
 {
-    var shortId = generateShortID(input.DestinationUrl);
+    string id;
 
+    if (string.IsNullOrEmpty(input.Slug))
+    {
+        id = GenerateShortId();
+    }
+    else
+    {
+        id = input.Slug;
+        var idValidationResult = idValidator.Validate(id);
+        if (!idValidationResult.IsValid)
+        {
+            var errorMessage = string.Join(", ", idValidationResult.Errors.Select(e => e.ErrorMessage));
+            return Results.BadRequest($"Invalid ID format: {errorMessage}");
+        }
+    }
+    
+    var destinationUrlValidatorResult = destinationUrlValidator.Validate(input);
+    if (!destinationUrlValidatorResult.IsValid)
+    {
+        var errorMessage = string.Join(", ", destinationUrlValidatorResult.Errors.Select(e => e.ErrorMessage));
+        return Results.BadRequest($"Invalid destination URL format: {errorMessage}. Expected: https://google.com");
+    }
+    
     var mappingEntity = new MappingEntity
     {
-        PartitionKey = shortId,
-        RowKey = shortId,
+        PartitionKey = id,
+        RowKey = id,
         Destination = input.DestinationUrl
     };
-
+    var mapping = await tableClient.GetEntityIfExistsAsync<MappingEntity>(id, id);
+    if (mapping.HasValue)
+    {
+        return Results.Conflict($"Slug conflict.");
+    }
     await tableClient.AddEntityAsync(mappingEntity);
 
-    return Results.Ok(new { shortId });
+    return Results.Ok(new { shortId = id });
 });
 
 
 app.Run();
 
-string generateShortID(string url)
+string GenerateShortId()
 {
     var guid = Guid.NewGuid();
     var base64Guid = Convert.ToBase64String(guid.ToByteArray());
     return base64Guid.Substring(0, 8);
-}
-
-public class UrlInput
-{
-    public string DestinationUrl { get; set; }
 }

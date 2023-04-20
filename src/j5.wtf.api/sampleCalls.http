@@ -7,5 +7,5 @@ POST {{API_BASE_URL}}/shorten
 Content-Type: application/json
 
 {
-  "destinationUrl": "https://www.example.com"
+  "destinationUrl": "http://www.asdf.com"
 }
