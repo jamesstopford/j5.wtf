@@ -19,28 +19,28 @@ var tableClient = new TableClient(connectionString, tableName);
 
 app.Use(ApiKeyValidation.ApiKeyValidationMiddleware(allowedApiKey!));
 
-// app.UseExceptionHandler(errorApp =>
-// {
-//     errorApp.Run(async context =>
-//     {
-//         var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-//         var exception = exceptionHandlerPathFeature?.Error;
-//
-//         // Log the exception here
-//
-//         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-//         context.Response.ContentType = "application/json";
-//
-//         var errorResponse = new
-//         {
-//             ErrorMessage = "An unexpected error occurred. Please try again later.",
-//             // Add more details about the error if needed
-//         };
-//
-//         var errorJson = JsonSerializer.Serialize(errorResponse);
-//         await context.Response.WriteAsync(errorJson);
-//     });
-// });
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        var exception = exceptionHandlerPathFeature?.Error;
+
+        // Log the exception here
+
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        var errorResponse = new
+        {
+            ErrorMessage = "An unexpected error occurred. Please try again later.",
+            // Add more details about the error if needed
+        };
+
+        var errorJson = JsonSerializer.Serialize(errorResponse);
+        await context.Response.WriteAsync(errorJson);
+    });
+});
 
 
 app.MapGet("/{id?}", async(string? id) =>
