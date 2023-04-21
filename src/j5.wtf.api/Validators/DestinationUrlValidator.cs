@@ -11,7 +11,7 @@ public class DestinationUrlValidator : AbstractValidator<UrlInput>
             .NotEmpty().WithMessage("URL is required.")
             .Must(BeAValidUrl).WithMessage("URL must be valid.");
     }
-    
+
     private bool BeAValidUrl(string url)
     {
         return Uri.TryCreate(url, UriKind.Absolute, out _);

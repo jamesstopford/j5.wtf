@@ -11,10 +11,10 @@ public class IdValidator : AbstractValidator<string>
             .NotEmpty()
             .Matches("^[a-zA-Z0-9]*$")
             .WithMessage("ID must contain only alphanumeric characters.");
-        
+
         RuleFor(id => id)
             .NotEmpty()
-            .Must(x=> x.Length <= 10)
+            .Must(x => x.Length <= 10)
             .WithMessage("ID must be 10 characters or less.");
     }
 }

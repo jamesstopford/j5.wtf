@@ -21,4 +21,15 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="obj\Debug\net7.0\j5.wtf.test.AssemblyInfoInputs.cache"/>
+        <Content Include="obj\Debug\net7.0\j5.wtf.test.assets.cache"/>
+        <Content Include="obj\Debug\net7.0\j5.wtf.test.csproj.AssemblyReference.cache"/>
+        <Content Include="obj\j5.wtf.test.csproj.nuget.dgspec.json"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs"/>
+    </ItemGroup>
+
 </Project>
