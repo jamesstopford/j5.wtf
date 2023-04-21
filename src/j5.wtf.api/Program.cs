@@ -2,6 +2,7 @@ using System.Text.Json;
 using Azure.Data.Tables;
 using j5.wtf.api.Validators;
 using j5.wtf.api.Auth;
+using j5.wtf.api.Models;
 using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +25,6 @@ app.UseExceptionHandler(errorApp =>
     errorApp.Run(async context =>
     {
         var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-        var exception = exceptionHandlerPathFeature?.Error;
-
-        // Log the exception here
 
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Response.ContentType = "application/json";
@@ -34,7 +32,6 @@ app.UseExceptionHandler(errorApp =>
         var errorResponse = new
         {
             ErrorMessage = "An unexpected error occurred. Please try again later.",
-            // Add more details about the error if needed
         };
 
         var errorJson = JsonSerializer.Serialize(errorResponse);
@@ -61,7 +58,7 @@ app.MapGet("/{id?}", async(string? id) =>
 
     var mapping = await tableClient.GetEntityIfExistsAsync<MappingEntity>(id, id);
 
-    return mapping.HasValue ? Results.Redirect(mapping.Value.Destination) : Results.NotFound($"No mapping found for the ID '{id}'");
+    return mapping.HasValue ? Results.Redirect(mapping.Value.Destination!) : Results.NotFound($"No mapping found for the ID '{id}'");
 });
 
 app.MapPost("/shorten/", async (UrlInput input) =>
@@ -113,6 +110,6 @@ string GenerateShortId()
 {
     var guid = Guid.NewGuid();
     var base64Guid = Convert.ToBase64String(guid.ToByteArray());
-    return base64Guid.Substring(0, 8);
+    return base64Guid[..8];
 }
 

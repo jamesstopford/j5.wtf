@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using j5.wtf.api.Models;
 
 namespace j5.wtf.api.Validators;
 

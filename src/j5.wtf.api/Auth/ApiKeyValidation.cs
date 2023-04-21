@@ -1,6 +1,6 @@
 ﻿namespace j5.wtf.api.Auth;
 
-public class ApiKeyValidation
+public abstract class ApiKeyValidation
 {
     public static Func<HttpContext, Func<Task>, Task> ApiKeyValidationMiddleware(string validApiKey)
     {
